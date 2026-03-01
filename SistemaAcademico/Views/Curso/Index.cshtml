@@ -1,0 +1,106 @@
+@model IEnumerable<Curso>
+@{
+    ViewData["Title"] = "Cursos";
+}
+
+<!-- Alerts -->
+@if (TempData["Mensaje"] != null)
+{
+    <div class="sa-alert success" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Mensaje"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="sa-alert danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="page-header-left">
+        <div class="page-header-icon info">
+            <i class="bi bi-book-fill"></i>
+        </div>
+        <div>
+            <nav class="breadcrumb-nav">
+                <a asp-controller="Home" asp-action="Index">Inicio</a>
+                <span class="separator">/</span>
+                <span>Cursos</span>
+            </nav>
+            <h1 class="page-title">Cursos</h1>
+        </div>
+    </div>
+    <a asp-action="Create" class="btn-brand">
+        <i class="bi bi-plus-lg"></i> Nuevo Curso
+    </a>
+</div>
+
+<!-- Search + Table Card -->
+<div class="sa-card">
+    <div class="sa-card-header">
+        <span style="font-size: 0.8125rem; color: var(--fg-tertiary); font-weight: 500;">
+            @Model.Count() registro(s)
+        </span>
+        <div class="search-bar">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" class="form-control" placeholder="Buscar curso..." data-table-search="cursosTable" />
+        </div>
+    </div>
+    <div class="sa-card-body no-padding">
+        @if (Model.Any())
+        {
+            <div class="sa-table-wrapper">
+                <table class="sa-table" id="cursosTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">#</th>
+                            <th>Nombre del Curso</th>
+                            <th>Seccion</th>
+                            <th style="width: 120px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="col-id">@item.id_curso</td>
+                                <td class="col-primary">@item.nombreCurso</td>
+                                <td><span class="font-mono">@item.seccion</span></td>
+                                <td>
+                                    <div class="action-group">
+                                        <a asp-action="Edit" asp-route-id="@item.id_curso" class="btn-action edit" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.id_curso" class="btn-action view" title="Ver detalles">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.id_curso" class="btn-action delete" title="Eliminar">
+                                            <i class="bi bi-trash3"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="bi bi-book"></i>
+                <div class="empty-title">No hay cursos registrados</div>
+                <p class="empty-desc">Comienza agregando el primer curso al catalogo.</p>
+                <a asp-action="Create" class="btn-brand">
+                    <i class="bi bi-plus-lg"></i> Crear Curso
+                </a>
+            </div>
+        }
+    </div>
+</div>

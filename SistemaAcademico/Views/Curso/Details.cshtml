@@ -1,0 +1,23 @@
+@model Curso
+@{
+    ViewData["Title"] = "Detalles del Curso";
+}
+
+<h2>Detalles del Curso</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">ID</dt>
+    <dd class="col-sm-9">@Model.id_curso</dd>
+
+    <dt class="col-sm-3">Nombre del Curso</dt>
+    <dd class="col-sm-9">@Model.nombreCurso</dd>
+
+    <dt class="col-sm-3">Seccion</dt>
+    <dd class="col-sm-9">@Model.seccion</dd>
+</dl>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.id_curso" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</div>

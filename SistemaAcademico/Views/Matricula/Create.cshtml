@@ -1,0 +1,81 @@
+@model SistemaAcademico.Models.ViewModels.MatriculaViewModel
+@{
+    ViewData["Title"] = "Crear Matricula";
+}
+
+<!-- Alerts -->
+@if (TempData["Error"] != null)
+{
+    <div class="sa-alert danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="page-header-left">
+        <div class="page-header-icon" style="background-color: #fdf4ff; color: #a855f7;">
+            <i class="bi bi-plus-circle-fill"></i>
+        </div>
+        <div>
+            <nav class="breadcrumb-nav">
+                <a asp-controller="Home" asp-action="Index">Inicio</a>
+                <span class="separator">/</span>
+                <a asp-controller="Matricula" asp-action="Index">Matriculas</a>
+                <span class="separator">/</span>
+                <span>Crear</span>
+            </nav>
+            <h1 class="page-title">Nueva Matricula</h1>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="sa-card">
+            <div class="sa-card-header">
+                <span style="font-weight: 600; font-size: 0.9375rem;">Datos de Inscripcion</span>
+            </div>
+            <div class="sa-card-body sa-form">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger" style="font-size: 0.875rem;"></div>
+                    <div class="mb-3">
+                        <label class="form-label">Estudiante</label>
+                        <select asp-for="Matricula.id_estudiante" asp-items="Model.Estudiantes" class="form-select">
+                            <option value="">-- Seleccionar Estudiante --</option>
+                        </select>
+                        <span asp-validation-for="Matricula.id_estudiante" class="text-danger" style="font-size: 0.8125rem;"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Curso</label>
+                        <select asp-for="Matricula.id_curso" asp-items="Model.Cursos" class="form-select">
+                            <option value="">-- Seleccionar Curso --</option>
+                        </select>
+                        <span asp-validation-for="Matricula.id_curso" class="text-danger" style="font-size: 0.8125rem;"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Periodo</label>
+                        <select asp-for="Matricula.id_periodo" asp-items="Model.Periodos" class="form-select">
+                            <option value="">-- Seleccionar Periodo --</option>
+                        </select>
+                        <span asp-validation-for="Matricula.id_periodo" class="text-danger" style="font-size: 0.8125rem;"></span>
+                    </div>
+                    <div class="d-flex gap-2 pt-2">
+                        <button type="submit" class="btn-brand">
+                            <i class="bi bi-check-lg"></i> Crear Matricula
+                        </button>
+                        <a asp-action="Index" class="btn-ghost">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

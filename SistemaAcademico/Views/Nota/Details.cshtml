@@ -1,0 +1,45 @@
+@model Nota
+@{
+    ViewData["Title"] = "Detalles de la Nota";
+}
+
+<h2>Detalles de la Nota</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">ID</dt>
+    <dd class="col-sm-9">@Model.id_nota</dd>
+
+    <dt class="col-sm-3">Estudiante</dt>
+    <dd class="col-sm-9">@Model.Matricula?.Estudiante?.nombreEstudiante</dd>
+
+    <dt class="col-sm-3">Curso</dt>
+    <dd class="col-sm-9">@Model.Matricula?.Curso?.nombreCurso (@Model.Matricula?.Curso?.seccion)</dd>
+
+    <dt class="col-sm-3">Nota 1 (30%)</dt>
+    <dd class="col-sm-9">@Model.nota1.ToString("F2")</dd>
+
+    <dt class="col-sm-3">Nota 2 (30%)</dt>
+    <dd class="col-sm-9">@Model.nota2.ToString("F2")</dd>
+
+    <dt class="col-sm-3">Nota 3 (40%)</dt>
+    <dd class="col-sm-9">@Model.nota3.ToString("F2")</dd>
+
+    <dt class="col-sm-3">Promedio</dt>
+    <dd class="col-sm-9"><strong>@Model.promedio.ToString("F2")</strong></dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">
+        <span class="badge @(Model.estado == "Aprobado" ? "bg-success" : "bg-danger") fs-6">
+            @Model.estado
+        </span>
+    </dd>
+
+    <dt class="col-sm-3">Fecha de Registro</dt>
+    <dd class="col-sm-9">@Model.fechaRegistro.ToString("dd/MM/yyyy HH:mm")</dd>
+</dl>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.id_nota" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</div>

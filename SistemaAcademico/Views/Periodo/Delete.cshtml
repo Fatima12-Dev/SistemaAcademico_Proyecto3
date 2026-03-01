@@ -1,0 +1,22 @@
+@model Periodo
+@{
+    ViewData["Title"] = "Eliminar Periodo";
+}
+
+<h2>Eliminar Periodo</h2>
+<h4 class="text-danger">Esta seguro que desea eliminar este periodo?</h4>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">ID</dt>
+    <dd class="col-sm-9">@Model.id_periodo</dd>
+
+    <dt class="col-sm-3">Nombre del Periodo</dt>
+    <dd class="col-sm-9">@Model.nombrePeriodo</dd>
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="id_periodo" />
+    <input type="submit" value="Eliminar" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</form>

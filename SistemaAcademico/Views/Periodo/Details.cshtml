@@ -1,0 +1,20 @@
+@model Periodo
+@{
+    ViewData["Title"] = "Detalles del Periodo";
+}
+
+<h2>Detalles del Periodo</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">ID</dt>
+    <dd class="col-sm-9">@Model.id_periodo</dd>
+
+    <dt class="col-sm-3">Nombre del Periodo</dt>
+    <dd class="col-sm-9">@Model.nombrePeriodo</dd>
+</dl>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.id_periodo" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</div>

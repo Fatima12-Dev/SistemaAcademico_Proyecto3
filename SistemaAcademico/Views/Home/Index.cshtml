@@ -1,8 +1,186 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Welcome -->
+<div class="dashboard-welcome">
+    <h1>Panel de Control</h1>
+    <p>Gestion de estudiantes, cursos, matriculas y calificaciones</p>
+</div>
+
+<!-- Stat Cards -->
+<div class="section-title">Resumen General</div>
+<div class="row g-3 mb-5">
+    <div class="col-6 col-md-4 col-lg">
+        <a asp-controller="Estudiante" asp-action="Index" class="stat-card">
+            <div class="stat-icon" style="background-color: var(--brand-50); color: var(--brand-600);">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="stat-value">@ViewBag.TotalEstudiantes</div>
+            <div class="stat-label">Estudiantes</div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-lg">
+        <a asp-controller="Curso" asp-action="Index" class="stat-card">
+            <div class="stat-icon" style="background-color: var(--color-info-bg); color: var(--color-info);">
+                <i class="bi bi-book-fill"></i>
+            </div>
+            <div class="stat-value">@ViewBag.TotalCursos</div>
+            <div class="stat-label">Cursos</div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-lg">
+        <a asp-controller="Periodo" asp-action="Index" class="stat-card">
+            <div class="stat-icon" style="background-color: var(--color-warning-bg); color: var(--color-warning);">
+                <i class="bi bi-calendar3-fill"></i>
+            </div>
+            <div class="stat-value">@ViewBag.TotalPeriodos</div>
+            <div class="stat-label">Periodos</div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-lg">
+        <a asp-controller="Matricula" asp-action="Index" class="stat-card">
+            <div class="stat-icon" style="background-color: #fdf4ff; color: #a855f7;">
+                <i class="bi bi-card-checklist"></i>
+            </div>
+            <div class="stat-value">@ViewBag.TotalMatriculas</div>
+            <div class="stat-label">Matriculas</div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-lg">
+        <a asp-controller="Nota" asp-action="Index" class="stat-card">
+            <div class="stat-icon" style="background-color: var(--color-success-bg); color: var(--color-success);">
+                <i class="bi bi-clipboard-data-fill"></i>
+            </div>
+            <div class="stat-value">@ViewBag.TotalNotas</div>
+            <div class="stat-label">Notas</div>
+        </a>
+    </div>
+</div>
+
+<!-- Quick Access + Results Summary -->
+<div class="row g-4 mb-5">
+    <!-- Quick Actions -->
+    <div class="col-lg-7">
+        <div class="section-title">Acciones Rapidas</div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <a asp-controller="Estudiante" asp-action="Create" class="quick-card">
+                    <div class="quick-icon" style="background-color: var(--brand-50); color: var(--brand-600);">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </div>
+                    <div>
+                        <div class="quick-title">Nuevo Estudiante</div>
+                        <p class="quick-desc">Registrar un nuevo estudiante</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a asp-controller="Matricula" asp-action="Create" class="quick-card">
+                    <div class="quick-icon" style="background-color: #fdf4ff; color: #a855f7;">
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </div>
+                    <div>
+                        <div class="quick-title">Nueva Matricula</div>
+                        <p class="quick-desc">Inscribir estudiante en curso</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a asp-controller="Nota" asp-action="Create" class="quick-card">
+                    <div class="quick-icon" style="background-color: var(--color-success-bg); color: var(--color-success);">
+                        <i class="bi bi-pencil-square"></i>
+                    </div>
+                    <div>
+                        <div class="quick-title">Registrar Nota</div>
+                        <p class="quick-desc">Ingresar calificaciones</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a asp-controller="Curso" asp-action="Create" class="quick-card">
+                    <div class="quick-icon" style="background-color: var(--color-info-bg); color: var(--color-info);">
+                        <i class="bi bi-journal-plus"></i>
+                    </div>
+                    <div>
+                        <div class="quick-title">Nuevo Curso</div>
+                        <p class="quick-desc">Agregar curso al catalogo</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Summary -->
+    <div class="col-lg-5">
+        <div class="section-title">Rendimiento Academico</div>
+        <div class="sa-card">
+            <div class="sa-card-body">
+                @{
+                    int aprobados = ViewBag.Aprobados ?? 0;
+                    int reprobados = ViewBag.Reprobados ?? 0;
+                    int totalNotas = aprobados + reprobados;
+                    int pctAprobados = totalNotas > 0 ? (int)Math.Round((double)aprobados / totalNotas * 100) : 0;
+                    int pctReprobados = totalNotas > 0 ? 100 - pctAprobados : 0;
+                }
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span style="font-size: 0.875rem; color: var(--fg-secondary);">Aprobados</span>
+                    <span class="badge-status approved">
+                        <i class="bi bi-check-circle-fill"></i> @aprobados
+                    </span>
+                </div>
+                <div class="progress mb-4" style="height: 8px; border-radius: var(--radius-full); background: var(--bg-inset);">
+                    <div class="progress-bar" role="progressbar" style="width: @(pctAprobados)%; background: var(--color-success); border-radius: var(--radius-full);"
+                         aria-valuenow="@pctAprobados" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span style="font-size: 0.875rem; color: var(--fg-secondary);">Reprobados</span>
+                    <span class="badge-status failed">
+                        <i class="bi bi-x-circle-fill"></i> @reprobados
+                    </span>
+                </div>
+                <div class="progress mb-3" style="height: 8px; border-radius: var(--radius-full); background: var(--bg-inset);">
+                    <div class="progress-bar" role="progressbar" style="width: @(pctReprobados)%; background: var(--color-danger); border-radius: var(--radius-full);"
+                         aria-valuenow="@pctReprobados" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                @if (totalNotas > 0)
+                {
+                    <div style="text-align: center; font-size: 0.8125rem; color: var(--fg-muted);">
+                        @pctAprobados% tasa de aprobacion sobre @totalNotas registros
+                    </div>
+                }
+                else
+                {
+                    <div style="text-align: center; font-size: 0.8125rem; color: var(--fg-muted);">
+                        Sin registros de notas aun
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Business Rules -->
+<div class="section-title">Reglas de Negocio</div>
+<div class="rules-panel">
+    <div class="rule-item">
+        <span class="rule-number">1</span>
+        <span>No se permite duplicar matricula (misma combinacion de Estudiante + Curso + Periodo).</span>
+    </div>
+    <div class="rule-item">
+        <span class="rule-number">2</span>
+        <span>Calculo de promedio ponderado: Nota 1 (30%) + Nota 2 (30%) + Nota 3 (40%).</span>
+    </div>
+    <div class="rule-item">
+        <span class="rule-number">3</span>
+        <span>Estado automatico: Aprobado si promedio &ge; 7, Reprobado en caso contrario.</span>
+    </div>
+    <div class="rule-item">
+        <span class="rule-number">4</span>
+        <span>Las notas deben estar en el rango de 0 a 10.</span>
+    </div>
+    <div class="rule-item">
+        <span class="rule-number">5</span>
+        <span>Las notas solo pueden editarse dentro de los primeros 7 dias despues de su registro.</span>
+    </div>
 </div>

@@ -1,0 +1,113 @@
+@model IEnumerable<Matricula>
+@{
+    ViewData["Title"] = "Matriculas";
+}
+
+<!-- Alerts -->
+@if (TempData["Mensaje"] != null)
+{
+    <div class="sa-alert success" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Mensaje"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="sa-alert danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="page-header-left">
+        <div class="page-header-icon" style="background-color: #fdf4ff; color: #a855f7;">
+            <i class="bi bi-card-checklist"></i>
+        </div>
+        <div>
+            <nav class="breadcrumb-nav">
+                <a asp-controller="Home" asp-action="Index">Inicio</a>
+                <span class="separator">/</span>
+                <span>Matriculas</span>
+            </nav>
+            <h1 class="page-title">Matriculas</h1>
+        </div>
+    </div>
+    <a asp-action="Create" class="btn-brand">
+        <i class="bi bi-plus-lg"></i> Nueva Matricula
+    </a>
+</div>
+
+<!-- Search + Table Card -->
+<div class="sa-card">
+    <div class="sa-card-header">
+        <span style="font-size: 0.8125rem; color: var(--fg-tertiary); font-weight: 500;">
+            @Model.Count() registro(s)
+        </span>
+        <div class="search-bar">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" class="form-control" placeholder="Buscar matricula..." data-table-search="matriculasTable" />
+        </div>
+    </div>
+    <div class="sa-card-body no-padding">
+        @if (Model.Any())
+        {
+            <div class="sa-table-wrapper">
+                <table class="sa-table" id="matriculasTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">#</th>
+                            <th>Estudiante</th>
+                            <th>Curso</th>
+                            <th>Periodo</th>
+                            <th>Fecha Inscripcion</th>
+                            <th style="width: 120px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="col-id">@item.id_matricula</td>
+                                <td class="col-primary">@item.Estudiante?.nombreEstudiante</td>
+                                <td>
+                                    @item.Curso?.nombreCurso
+                                    <span class="text-tertiary" style="font-size: 0.8125rem;">(@item.Curso?.seccion)</span>
+                                </td>
+                                <td>@item.Periodo?.nombrePeriodo</td>
+                                <td class="col-mono">@item.fechaInscripcion.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    <div class="action-group">
+                                        <a asp-action="Edit" asp-route-id="@item.id_matricula" class="btn-action edit" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.id_matricula" class="btn-action view" title="Ver detalles">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.id_matricula" class="btn-action delete" title="Eliminar">
+                                            <i class="bi bi-trash3"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="bi bi-card-checklist"></i>
+                <div class="empty-title">No hay matriculas registradas</div>
+                <p class="empty-desc">Comienza inscribiendo un estudiante en un curso.</p>
+                <a asp-action="Create" class="btn-brand">
+                    <i class="bi bi-plus-lg"></i> Crear Matricula
+                </a>
+            </div>
+        }
+    </div>
+</div>

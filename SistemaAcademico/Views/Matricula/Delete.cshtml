@@ -1,0 +1,31 @@
+@model Matricula
+@{
+    ViewData["Title"] = "Eliminar Matricula";
+}
+
+<h2>Eliminar Matricula</h2>
+<h4 class="text-danger">Esta seguro que desea eliminar esta matricula?</h4>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">ID</dt>
+    <dd class="col-sm-9">@Model.id_matricula</dd>
+
+    <dt class="col-sm-3">Estudiante</dt>
+    <dd class="col-sm-9">@Model.Estudiante?.nombreEstudiante</dd>
+
+    <dt class="col-sm-3">Curso</dt>
+    <dd class="col-sm-9">@Model.Curso?.nombreCurso (@Model.Curso?.seccion)</dd>
+
+    <dt class="col-sm-3">Periodo</dt>
+    <dd class="col-sm-9">@Model.Periodo?.nombrePeriodo</dd>
+
+    <dt class="col-sm-3">Fecha de Inscripcion</dt>
+    <dd class="col-sm-9">@Model.fechaInscripcion.ToString("dd/MM/yyyy")</dd>
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="id_matricula" />
+    <input type="submit" value="Eliminar" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</form>

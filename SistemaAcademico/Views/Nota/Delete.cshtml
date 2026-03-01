@@ -1,0 +1,42 @@
+@model Nota
+@{
+    ViewData["Title"] = "Eliminar Nota";
+}
+
+<h2>Eliminar Nota</h2>
+<h4 class="text-danger">Esta seguro que desea eliminar esta nota?</h4>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">ID</dt>
+    <dd class="col-sm-9">@Model.id_nota</dd>
+
+    <dt class="col-sm-3">Estudiante</dt>
+    <dd class="col-sm-9">@Model.Matricula?.Estudiante?.nombreEstudiante</dd>
+
+    <dt class="col-sm-3">Curso</dt>
+    <dd class="col-sm-9">@Model.Matricula?.Curso?.nombreCurso (@Model.Matricula?.Curso?.seccion)</dd>
+
+    <dt class="col-sm-3">Nota 1</dt>
+    <dd class="col-sm-9">@Model.nota1.ToString("F2")</dd>
+
+    <dt class="col-sm-3">Nota 2</dt>
+    <dd class="col-sm-9">@Model.nota2.ToString("F2")</dd>
+
+    <dt class="col-sm-3">Nota 3</dt>
+    <dd class="col-sm-9">@Model.nota3.ToString("F2")</dd>
+
+    <dt class="col-sm-3">Promedio</dt>
+    <dd class="col-sm-9"><strong>@Model.promedio.ToString("F2")</strong></dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">
+        <span class="badge @(Model.estado == "Aprobado" ? "bg-success" : "bg-danger")">@Model.estado</span>
+    </dd>
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="id_nota" />
+    <input type="submit" value="Eliminar" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</form>
