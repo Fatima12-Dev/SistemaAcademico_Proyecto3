@@ -114,9 +114,16 @@ namespace SistemaAcademico.Controllers
             var estudiante = await _context.Estudiantes.FindAsync(id);
             if (estudiante != null)
             {
-                _context.Estudiantes.Remove(estudiante);
-                await _context.SaveChangesAsync();
-                TempData["Mensaje"] = "Estudiante eliminado exitosamente.";
+                try
+                {
+                    _context.Estudiantes.Remove(estudiante);
+                    await _context.SaveChangesAsync();
+                    TempData["Mensaje"] = "Estudiante eliminado exitosamente.";
+                }
+                catch (DbUpdateException)
+                {
+                    TempData["Error"] = "No se puede eliminar este estudiante porque tiene matrículas asociadas.";
+                }
             }
             return RedirectToAction(nameof(Index));
         }

@@ -106,9 +106,16 @@ namespace SistemaAcademico.Controllers
             var curso = await _context.Cursos.FindAsync(id);
             if (curso != null)
             {
-                _context.Cursos.Remove(curso);
-                await _context.SaveChangesAsync();
-                TempData["Mensaje"] = "Curso eliminado exitosamente.";
+                try
+                {
+                    _context.Cursos.Remove(curso);
+                    await _context.SaveChangesAsync();
+                    TempData["Mensaje"] = "Curso eliminado exitosamente.";
+                }
+                catch (DbUpdateException)
+                {
+                    TempData["Error"] = "No se puede eliminar este curso porque tiene matrículas asociadas.";
+                }
             }
             return RedirectToAction(nameof(Index));
         }

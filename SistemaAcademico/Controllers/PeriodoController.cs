@@ -106,9 +106,16 @@ namespace SistemaAcademico.Controllers
             var periodo = await _context.Periodos.FindAsync(id);
             if (periodo != null)
             {
-                _context.Periodos.Remove(periodo);
-                await _context.SaveChangesAsync();
-                TempData["Mensaje"] = "Periodo eliminado exitosamente.";
+                try
+                {
+                    _context.Periodos.Remove(periodo);
+                    await _context.SaveChangesAsync();
+                    TempData["Mensaje"] = "Periodo eliminado exitosamente.";
+                }
+                catch (DbUpdateException)
+                {
+                    TempData["Error"] = "No se puede eliminar este periodo porque tiene matrículas asociadas.";
+                }
             }
             return RedirectToAction(nameof(Index));
         }

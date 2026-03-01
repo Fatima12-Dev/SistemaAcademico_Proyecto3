@@ -163,9 +163,16 @@ namespace SistemaAcademico.Controllers
             var matricula = await _context.Matriculas.FindAsync(id);
             if (matricula != null)
             {
-                _context.Matriculas.Remove(matricula);
-                await _context.SaveChangesAsync();
-                TempData["Mensaje"] = "Matricula eliminada exitosamente.";
+                try
+                {
+                    _context.Matriculas.Remove(matricula);
+                    await _context.SaveChangesAsync();
+                    TempData["Mensaje"] = "Matricula eliminada exitosamente.";
+                }
+                catch (DbUpdateException)
+                {
+                    TempData["Error"] = "No se puede eliminar esta matrícula porque tiene notas asociadas.";
+                }
             }
             return RedirectToAction(nameof(Index));
         }
